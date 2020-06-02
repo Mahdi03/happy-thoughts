@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pensamientos Felices</string>
+    <string name="button_txt">Escoge un tiempo:</string>
+    <string name="setup_info">Esta aplicación te da ideas felices cada día. Para empezar, sólo escoge un tiempo y haremos el resto.</string>
+</resources>

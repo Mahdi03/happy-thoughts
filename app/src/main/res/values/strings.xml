@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Happy Thoughts</string>
+    <string name="setup_info">This application sends you a random happy thought every day. To finish setting up, simply choose a time to receive an optimistic thought every day and we\'ll make the rest happen. If you completely power off or restart your phone, you will have to re-input a time to start getting notifications again. Enjoy!</string>
+    <string name="button_txt">Pick A Time:</string>
+</resources>

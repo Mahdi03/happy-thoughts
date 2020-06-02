@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ভালো চিন্তা</string>
+    <string name="button_txt" translatable="false">একটা সময় দাও:</string>
+    <string name="setup_info" translatable="false">এই অ্যাপটা তোমাকে প্রতিদিন একটা ভালো চিন্তা দেয়. শুরু করতে আমাদেরকে একটা সময় দেও আর আমরা সবকিছু করে দিব</string>
+</resources>
