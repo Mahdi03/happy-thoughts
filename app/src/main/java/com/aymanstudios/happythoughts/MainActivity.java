@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //Toast.makeText(context, "1", Toast.LENGTH_SHORT).show(); //testing
 
-        /*
+        ///*
         //Get and Show AdMob Ads
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
@@ -156,7 +156,8 @@ public class MainActivity extends AppCompatActivity {
         //Replace AdMob Interstitial Ad ID with ca-app-pub-8495483038077603/2156743218
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
-        */
+        //*/
+
         //Firebase stuff for testing
         //FirebaseFirestore db = FirebaseFirestore.getInstance();
         //db.collection("happyThoughts").document("happyThoughts").update("listOfHappyThoughts", listOfHappyThoughtsClass);
@@ -175,8 +176,8 @@ public class MainActivity extends AppCompatActivity {
         });*/
 
         //Define the widgets
-        textView2 = (TextView) findViewById(R.id.textView2);
-        pickTimeButton = (Button) findViewById(R.id.pickTimeButton);
+        textView2 = findViewById(R.id.textView2);
+        pickTimeButton = findViewById(R.id.pickTimeButton);
         //Get current time to open time dialog with current time already selected as placeholder
         Calendar calendar = Calendar.getInstance();
         //"final" is required because these variable will be used within an inner class - it is analogous to const
@@ -224,6 +225,11 @@ public class MainActivity extends AppCompatActivity {
                         PackageManager pm = context.getPackageManager();
                         pm.setComponentEnabledSetting(bootReceiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
 
+                        //Actually display the ad
+                        if (mInterstitialAd.isLoaded()) {
+                            mInterstitialAd.show();
+                        }
+
                         //Change informational text to text that tells user that their notifications have been set
                         textView2.setText("Your optimistic notifications have been scheduled for " + hour + ":" + minute + " every day.\n\nNow that you have setup your daily notifications, you no longer need to open this app. If you want to change the time of notifications, simply open this app again and put in your new time. Thank you for installing Happy Thoughts.");
                         //Hide time picker button
@@ -236,11 +242,7 @@ public class MainActivity extends AppCompatActivity {
                 timePickerDialog.show();
             }
         });
-        /*
-        //Actually display the ad
-        if (mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
-        }*/
+
     }
     //Function to schedule the notifications
     private void scheduleNotification(long delay) {
@@ -283,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         assert alarmManager != null;
         /*
-        Change to AlarmManager.INTERVAL_FIFTEEN_MINUTES for testing purposes
+        Change to AlarmManager.INTERVAL_DAY for testing purposes
 
         This function call wakes up the device every time the alarm sets off, and it calls our
         PendingIntent which is ultimately binded to our Intent that is binded to
@@ -292,7 +294,7 @@ public class MainActivity extends AppCompatActivity {
         the notifications aren't so urgent so although they will be triggered at the
         same time, they will show up when readily-available for the device
         */
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, delay, AlarmManager.INTERVAL_DAY, pendingIntent);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, delay, AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
     }
 
     /*private Notification getNotification(String title) {
