@@ -63,7 +63,7 @@ public class MyNotificationPublisher extends BroadcastReceiver {
                         builder.setContentTitle("Happy Thought Of The Day:");
                         //Set its short text that is immediately available
                         builder.setContentText("...");
-                        builder.setSmallIcon(R.drawable.ic_launcher_foreground);
+                        builder.setSmallIcon(R.drawable.appLogo);
                         //Set its long text (lines wrap and all text is visible)
                         builder.setStyle(new NotificationCompat.BigTextStyle().bigText(listOfHappyThoughts.get(getRandNum())));
                         //When clicked the notification does not go away
