@@ -92,7 +92,7 @@ public class MyNotificationPublisher extends BroadcastReceiver {
                         }
                         else {
                             //listOfHappyThoughts = listOfHappyThoughtsFallback;
-                            Toast.makeText(mainContext, task.getException().toString() + "Failed to get document, using a fallback list instead", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mainContext, task.getException().toString() + " Using a fallback list instead", Toast.LENGTH_SHORT).show();
                         }
                         NotificationManager notificationManager = (NotificationManager) mainContext.getSystemService(Context.NOTIFICATION_SERVICE);
                         //Builds new Notification object
@@ -101,7 +101,7 @@ public class MyNotificationPublisher extends BroadcastReceiver {
                         builder.setContentTitle("Happy Thought Of The Day:");
                         //Set its short text that is immediately available
                         builder.setContentText("...");
-                        builder.setSmallIcon(R.drawable.app_logo);
+                        builder.setSmallIcon(R.mipmap.app_logo);
                         //Set its long text (lines wrap and all text is visible)
                         //Toast.makeText(context, "before set main notification text", Toast.LENGTH_SHORT).show(); //testing
                         builder.setStyle(new NotificationCompat.BigTextStyle().bigText(listOfHappyThoughts.get(getRandNum())));
