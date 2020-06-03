@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
             return listOfHappyThoughts;
         }
     }
-    ListOfHappyThoughtsClass listOfHappyThoughtsClass = new ListOfHappyThoughtsClass(Arrays.asList("string1", "string2"));
+
     */
     public static final String NOTIFICATION_CHANNEL_ID = "10001";
     private final static String default_notification_channel_id = "default";
@@ -162,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
         //*/
 
 
+        //ListOfHappyThoughtsClass listOfHappyThoughtsClass = new ListOfHappyThoughtsClass(Arrays.asList("string1", "string2"));
         //db.collection("happyThoughts").document("happyThoughts").update("listOfHappyThoughts", listOfHappyThoughtsClass);
 
         /*db.collection("happyThoughts").document("happyThoughts").set("hello")
