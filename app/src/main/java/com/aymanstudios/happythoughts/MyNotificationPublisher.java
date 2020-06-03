@@ -101,7 +101,7 @@ public class MyNotificationPublisher extends BroadcastReceiver {
                         builder.setContentTitle("Happy Thought Of The Day:");
                         //Set its short text that is immediately available
                         builder.setContentText("...");
-                        builder.setSmallIcon(R.drawable.appLogo);
+                        builder.setSmallIcon(R.drawable.app_logo);
                         //Set its long text (lines wrap and all text is visible)
                         //Toast.makeText(context, "before set main notification text", Toast.LENGTH_SHORT).show(); //testing
                         builder.setStyle(new NotificationCompat.BigTextStyle().bigText(listOfHappyThoughts.get(getRandNum())));

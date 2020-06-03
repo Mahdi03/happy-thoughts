@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
         /*NotificationCompat.Builder builder = new NotificationCompat.Builder(this, default_notification_channel_id);
         builder.setContentTitle(title);
         builder.setContentText("...");
-        builder.setSmallIcon(R.drawable.appLogo);
+        builder.setSmallIcon(R.drawable.app_logo);
         //builder.setStyle(new NotificationCompat.BigTextStyle().bigText(happyThoughtsList[(int) Math.floor(Math.random() * happyThoughtsList.length)]));
         builder.setAutoCancel(false);
         builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
@@ -304,7 +304,7 @@ public class MainActivity extends AppCompatActivity {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, default_notification_channel_id);
         builder.setContentTitle(title);
         builder.setContentText("...");
-        builder.setSmallIcon(R.drawable.appLogo);
+        builder.setSmallIcon(R.drawable.app_logo);
         builder.setStyle(new NotificationCompat.BigTextStyle().bigText(happyThoughtsList[(int) Math.floor(Math.random() * happyThoughtsList.length)]));
         builder.setAutoCancel(false);
         builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
