@@ -8,7 +8,9 @@
 # generated files
 bin/
 gen/
-# windowd thumbnail db
+# icon creation files
+newIcon/
+# windows thumbnail db
 Thumbs.db
 
 *.iml

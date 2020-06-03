@@ -53,6 +53,10 @@ public class MyNotificationPublisher extends BroadcastReceiver {
                             if (document.exists()) {
                                 listOfHappyThoughts = (List<String>) document.getData().get("listOfHappyThoughts");
                             }
+                        }
+                        else {
+                            //listOfHappyThoughts = listOfHappyThoughtsFallback;
+                            Toast.makeText(mainContext, task.getException().toString() + " Using a fallback list instead", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(mainContext, task.getException().toString() + "Failed to get document, using a fallback list instead", Toast.LENGTH_SHORT).show();
                         }
@@ -63,7 +67,7 @@ public class MyNotificationPublisher extends BroadcastReceiver {
                         builder.setContentTitle("Happy Thought Of The Day:");
                         //Set its short text that is immediately available
                         builder.setContentText("...");
-                        builder.setSmallIcon(R.drawable.appLogo);
+                        builder.setSmallIcon(R.mipmap.app_logo);
                         //Set its long text (lines wrap and all text is visible)
                         builder.setStyle(new NotificationCompat.BigTextStyle().bigText(listOfHappyThoughts.get(getRandNum())));
                         //When clicked the notification does not go away
