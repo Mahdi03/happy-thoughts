@@ -1,6 +1,7 @@
 package com.aymanstudios.happythoughts;
 
 //All Imported Scripts for Widgets and Notification Functions (A view is an object on the screen)
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
@@ -8,30 +9,20 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -39,39 +30,6 @@ import java.util.List;
 //Main function that runs during runtime
 public class MainActivity extends AppCompatActivity {
     //Global variables declared - can be accessed by other files if they are "public static"
-
-    //This represents the paragraph text
-    TextView textView2;
-    //This represents the button that you click for the time picker dialog to open
-    Button pickTimeButton;
-    //This is the required "this" scope for the time picker dialog to open
-    Context context = this;
-    //Set Variables for daily notification
-    public static int setTimeHour;
-    public static int setTimeMinute;
-
-
-    class ListOfHappyThoughtsClass {
-        //List (complicated Array) of sayings to choose from
-        private List<String> listOfHappyThoughts;
-        public ListOfHappyThoughtsClass() {
-            //Required for DataSnapshot.getValue(ListOfHappyThoughts.class)
-        }
-        //Main Setter for class
-        public ListOfHappyThoughtsClass(List<String> listOfHappyThoughts) {
-            this.listOfHappyThoughts = listOfHappyThoughts;
-        }
-        //Main Getter for class
-        public List<String> getListOfHappyThoughts() {
-            return listOfHappyThoughts;
-        }
-    }
-    //Actually use class to define variable if used from online
-    private ListOfHappyThoughtsClass listOfHappyThoughtsClass;
-    //Final List to choose sayings from (could be updated or from fallback list)
-    public List<String> listOfHappyThoughts;
-
-
 
     public static final List<String> listOfHappyThoughtsFallback = Arrays.asList("Rise and shine, today will be the day you make it, so go on and make a great day!",
             "Be patient with yourself. Nothing in nature blooms all year.",
@@ -140,8 +98,22 @@ public class MainActivity extends AppCompatActivity {
     */
     public static final String NOTIFICATION_CHANNEL_ID = "10001";
     private final static String default_notification_channel_id = "default";
+    //Set Variables for daily notification
+    public static int setTimeHour;
+    public static int setTimeMinute;
+    //Final List to choose sayings from (could be updated or from fallback list)
+    public List<String> listOfHappyThoughts;
+    //This represents the paragraph text
+    TextView textView2;
+    //This represents the button that you click for the time picker dialog to open
+    Button pickTimeButton;
+    //This is the required "this" scope for the time picker dialog to open
+    Context context = this;
+    //Actually use class to define variable if used from online
+    private ListOfHappyThoughtsClass listOfHappyThoughtsClass;
     //final Calendar myCalendar = Calendar.getInstance();
     private InterstitialAd mInterstitialAd;
+
     //I'm assuming that "onCreate" runs when the screen loads and all the widgets are loaded
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +125,8 @@ public class MainActivity extends AppCompatActivity {
         //Get and Show AdMob Ads
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {}
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
         });
         mInterstitialAd = new InterstitialAd(this);
         //Replace AdMob Interstitial Ad ID with ca-app-pub-8495483038077603/2156743218
@@ -219,8 +192,8 @@ public class MainActivity extends AppCompatActivity {
                             pendingIntent.cancel();
                         }
                         finally {*/
-                            //Actual call to schedule notification
-                            scheduleNotification(setTime.getTimeInMillis());
+                        //Actual call to schedule notification
+                        scheduleNotification(setTime.getTimeInMillis());
                         //}
 
                         //After daily notifications are setup, call boot listener that will reset the alarm if the user shuts down the device
@@ -247,9 +220,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
     //Function to schedule the notifications
     private void scheduleNotification(long delay) {
-    //private void scheduleNotification(Notification notification, long delay) {
+        //private void scheduleNotification(Notification notification, long delay) {
 
         /*NotificationCompat.Builder builder = new NotificationCompat.Builder(this, default_notification_channel_id);
         builder.setContentTitle(title);
@@ -278,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
         run when scheduled. To this pending action we attach the new intent we just created
         for MyNotificationPublisher.java.
          */
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         /*
         Everything in MyNotificationPublisher.java will be repeated every single time the
         AlarmManager goes off. The AlarmManager is a simple function that runs a timer in
@@ -298,6 +272,25 @@ public class MainActivity extends AppCompatActivity {
         same time, they will show up when readily-available for the device
         */
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, delay, AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+    }
+
+    class ListOfHappyThoughtsClass {
+        //List (complicated Array) of sayings to choose from
+        private List<String> listOfHappyThoughts;
+
+        public ListOfHappyThoughtsClass() {
+            //Required for DataSnapshot.getValue(ListOfHappyThoughts.class)
+        }
+
+        //Main Setter for class
+        public ListOfHappyThoughtsClass(List<String> listOfHappyThoughts) {
+            this.listOfHappyThoughts = listOfHappyThoughts;
+        }
+
+        //Main Getter for class
+        public List<String> getListOfHappyThoughts() {
+            return listOfHappyThoughts;
+        }
     }
 
     /*private Notification getNotification(String title) {

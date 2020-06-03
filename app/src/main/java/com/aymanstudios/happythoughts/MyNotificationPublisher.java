@@ -6,24 +6,21 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.aymanstudios.happythoughts.MainActivity.NOTIFICATION_CHANNEL_ID;
 import static com.aymanstudios.happythoughts.MainActivity.listOfHappyThoughtsFallback;
+
 /*
 The BroadcastReceiver is what is used to communicate between the two java classes
 
@@ -37,29 +34,10 @@ public class MyNotificationPublisher extends BroadcastReceiver {
     public static String NOTIFICATION_ID = "notification-id";
     public static String NOTIFICATION = "notification";
     public static String NOTIFICATION_BUILDER = "notification_builder";
-
-    /*ArrayList<Integer> enumArr = new ArrayList<Integer>();
-        for (int i = 0; i < listOfHappyThoughts.size(); i++) {
-        enumArr.add(i);
-    }*/
-    //This class is the format that is used to upload and download the listOfHappyThoughts form the Firebase Firestore database
-    class ListOfHappyThoughtsClass {
-        //List (complicated Array) of sayings to choose from
-        private List<String> listOfHappyThoughts;
-        //Main Setter for class
-        public ListOfHappyThoughtsClass(List<String> listOfHappyThoughts) {
-            this.listOfHappyThoughts = listOfHappyThoughts;
-        }
-        //Main Getter for class
-        public List<String> getListOfHappyThoughts() {
-            return listOfHappyThoughts;
-        }
-    }
-    //Actually use class to define variable if used from online
-    private ListOfHappyThoughtsClass listOfHappyThoughtsClass;
     //Final List to choose sayings from (could be updated or from fallback list)
     public List<String> listOfHappyThoughts;
-
+    //Actually use class to define variable if used from online
+    private ListOfHappyThoughtsClass listOfHappyThoughtsClass;
 
     public void onReceive(Context context, Intent intent) {
         listOfHappyThoughts = listOfHappyThoughtsFallback;
@@ -89,8 +67,7 @@ public class MyNotificationPublisher extends BroadcastReceiver {
 
                                 //Toast.makeText(mainContext, "Good job 3", Toast.LENGTH_LONG).show();
                             }
-                        }
-                        else {
+                        } else {
                             //listOfHappyThoughts = listOfHappyThoughtsFallback;
                             Toast.makeText(mainContext, task.getException().toString() + "Failed to get document, using a fallback list instead", Toast.LENGTH_SHORT).show();
                         }
@@ -203,8 +180,29 @@ docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
         //Overall Notification Manager - ultimately used to fire the notification directly
 
     }
+
     int getRandNum() {
         int randNum = (int) Math.floor(Math.random() * listOfHappyThoughts.size());
         return randNum;
+    }
+
+    /*ArrayList<Integer> enumArr = new ArrayList<Integer>();
+        for (int i = 0; i < listOfHappyThoughts.size(); i++) {
+        enumArr.add(i);
+    }*/
+    //This class is the format that is used to upload and download the listOfHappyThoughts form the Firebase Firestore database
+    class ListOfHappyThoughtsClass {
+        //List (complicated Array) of sayings to choose from
+        private List<String> listOfHappyThoughts;
+
+        //Main Setter for class
+        public ListOfHappyThoughtsClass(List<String> listOfHappyThoughts) {
+            this.listOfHappyThoughts = listOfHappyThoughts;
+        }
+
+        //Main Getter for class
+        public List<String> getListOfHappyThoughts() {
+            return listOfHappyThoughts;
+        }
     }
 }

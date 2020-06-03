@@ -1,7 +1,6 @@
 package com.aymanstudios.happythoughts;
 
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,7 +8,6 @@ import android.content.Intent;
 
 import java.util.Calendar;
 
-import static com.aymanstudios.happythoughts.MainActivity.listOfHappyThoughtsFallback;
 import static com.aymanstudios.happythoughts.MainActivity.setTimeHour;
 import static com.aymanstudios.happythoughts.MainActivity.setTimeMinute;
 
@@ -37,7 +35,7 @@ public class BootReceiver extends BroadcastReceiver {
         run when scheduled. To this pending action we attach the new intent we just created
         for MyNotificationPublisher.java.
          */
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context,0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         /*
         Everything in MyNotificationPublisher.java will be repeated every single time the
         AlarmManager goes off. The AlarmManager is a simple function that runs a timer in
