@@ -42,9 +42,8 @@ public class MyNotificationPublisher extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         listOfHappyThoughts = listOfHappyThoughtsFallback;
         final Context mainContext = context;
-        //Firebase stuff for testing
+        //Firebase stuff for getting info from database
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        //Toast.makeText(mainContext, "Good job 1", Toast.LENGTH_SHORT).show();
         db.collection("happyThoughts").document("happyThoughts").get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -52,23 +51,9 @@ public class MyNotificationPublisher extends BroadcastReceiver {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                //Toast.makeText(mainContext, "Good job 2", Toast.LENGTH_SHORT).show();
-
-                                //listOfHappyThoughtsClass = new ListOfHappyThoughtsClass((List<String>) document.getData().get("listOfHappyThoughts"));
-                                //Toast.makeText(context, "Good job", Toast.LENGTH_LONG).show();
-                                //List<String> getData = (List<String>) document.getData().get("listOfHappyThoughts");
-                                //listOfHappyThoughts = listOfHappyThoughtsClass.getListOfHappyThoughts();
-
                                 listOfHappyThoughts = (List<String>) document.getData().get("listOfHappyThoughts");
-
-                                /*listOfHappyThoughts = new ArrayList<String>();
-                                listOfHappyThoughts.add(0, "1");
-                                listOfHappyThoughts.add(1, "2");*/
-
-                                //Toast.makeText(mainContext, "Good job 3", Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            //listOfHappyThoughts = listOfHappyThoughtsFallback;
                             Toast.makeText(mainContext, task.getException().toString() + "Failed to get document, using a fallback list instead", Toast.LENGTH_SHORT).show();
                         }
                         NotificationManager notificationManager = (NotificationManager) mainContext.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -80,9 +65,7 @@ public class MyNotificationPublisher extends BroadcastReceiver {
                         builder.setContentText("...");
                         builder.setSmallIcon(R.drawable.ic_launcher_foreground);
                         //Set its long text (lines wrap and all text is visible)
-                        //Toast.makeText(context, "before set main notification text", Toast.LENGTH_SHORT).show(); //testing
                         builder.setStyle(new NotificationCompat.BigTextStyle().bigText(listOfHappyThoughts.get(getRandNum())));
-                        //Toast.makeText(context, "after set main notification text", Toast.LENGTH_SHORT).show(); //testing
                         //When clicked the notification does not go away
                         builder.setAutoCancel(false);
                         //Allow the notification to be seen on the lock screen
@@ -91,11 +74,6 @@ public class MyNotificationPublisher extends BroadcastReceiver {
                         builder.setChannelId(NOTIFICATION_CHANNEL_ID);
                         //Store all of the aforementioned info into a Notification object that can be passed into the NotificationManager
                         Notification notification = builder.build();
-
-
-                        //Notification notification = intent.getParcelableExtra(NOTIFICATION);
-                        //notification.setStyle
-
                         //If SDK > 26
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                             //Use Notification Channel because that's how you do it
@@ -106,79 +84,12 @@ public class MyNotificationPublisher extends BroadcastReceiver {
                             //Creates a new NotificationChannel
                             notificationManager.createNotificationChannel(notificationChannel);
                         }
-        /*else {
-            Toast.makeText(context, "Notifications aren't supported on your device, sorry!", Toast.LENGTH_LONG);
-        }*/
                         //int id = 0;
                         assert notificationManager != null;
                         //Finally push the notification
                         notificationManager.notify(1, notification);
                     }
                 });
-        //Toast.makeText(context, Integer.toString(listOfHappyThoughts.size()), Toast.LENGTH_LONG);
-
-        /*//Get listOfHappyThoughts from firestore
-        //String[] listOfHappyThoughts;
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("happyThoughts").document("happyThoughts").set(listOfHappyThoughts);
-        /*
-DocumentReference docRef = db.collection("happyThoughts").document("happyThoughts");
-docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-    @Override
-    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-        if (task.isSuccessful()) {
-            DocumentSnapshot document = task.getResult();
-            if (document.exists()) {
-                listOfHappyThoughts = document.getData();
-                //Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-            } else {
-                //Log.d(TAG, "No such document");
-                Toast errInfo1 = new Toast(context);
-                errInfo1.makeText(context, "You must be connected to the internet to access all of the Happy Thoughts", Toast.LENGTH_LONG);
-                errInfo1.show();
-                Thread.sleep(Toast.LENGTH_LONG);
-                //Toast errInfo2 = new Toast(context);
-                errInfo2.makeText(context, "Using a fallback list", Toast.LENGTH_SHORT);
-                errInfo2.show();
-            }
-        } //else {
-            //Log.d(TAG, "get failed with ", task.getException());
-
-        //}
-    }
-});
-        */
-
-        /*Toast.makeText(context, "BeforeTry", Toast.LENGTH_SHORT).show(); //testing
-        try {
-            //Declare and Initialize FirebaseFirestore object
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            Toast.makeText(context, "db declared", Toast.LENGTH_SHORT).show(); //testing
-            //Try getting Data from database
-            db.collection("happyThoughts").document("happyThoughts").get()
-            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    //Toast.makeText(context, "firebase firestore get = success", Toast.LENGTH_SHORT).show(); //testing
-                    //Set variable value to result from online
-                    listOfHappyThoughtsClass = documentSnapshot.toObject(ListOfHappyThoughtsClass.class);
-                    //Toast.makeText(context, "after toObject", Toast.LENGTH_SHORT).show(); //testing
-                    //Actually extract the List object from result class with Getter
-                    listOfHappyThoughts = listOfHappyThoughtsClass.getListOfHappyThoughts();
-                    //Toast.makeText(context, "afterStores variable from firestore", Toast.LENGTH_SHORT).show(); //testing
-                }
-            });
-            Toast.makeText(context, "after db get", Toast.LENGTH_SHORT).show(); //testing
-        } catch (Exception e) {
-            //If it doesn't work, issue a Toast telling the user
-            Toast.makeText(context, "Failed to get newest notifications, using a fallback list", Toast.LENGTH_SHORT).show();
-            //Set final listOfHappyThoughts to fallback list that is built-in
-            listOfHappyThoughts = listOfHappyThoughtsFallback;
-        }
-        Toast.makeText(context, "BeforeSetNotification", Toast.LENGTH_SHORT).show(); //testing*/
-        //listOfHappyThoughts = listOfHappyThoughtsFallback;
-        //Overall Notification Manager - ultimately used to fire the notification directly
-
     }
 
     int getRandNum() {
@@ -186,10 +97,6 @@ docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
         return randNum;
     }
 
-    /*ArrayList<Integer> enumArr = new ArrayList<Integer>();
-        for (int i = 0; i < listOfHappyThoughts.size(); i++) {
-        enumArr.add(i);
-    }*/
     //This class is the format that is used to upload and download the listOfHappyThoughts form the Firebase Firestore database
     class ListOfHappyThoughtsClass {
         //List (complicated Array) of sayings to choose from

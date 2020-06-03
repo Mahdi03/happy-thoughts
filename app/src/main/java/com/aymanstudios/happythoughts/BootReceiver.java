@@ -20,7 +20,6 @@ public class BootReceiver extends BroadcastReceiver {
             setTime.setTimeInMillis(System.currentTimeMillis());
             setTime.set(Calendar.HOUR_OF_DAY, setTimeHour);
             setTime.set(Calendar.MINUTE, setTimeMinute);
-            //scheduleNotification(getNotification("Happy Thought Of The Day:", happyThoughtsList[(int) Math.floor(Math.random() * happyThoughtsList.length)]), setTime.getTimeInMillis());
 
             /*
         Create a new intent that is the MyNotificationPublisher.class
@@ -54,7 +53,6 @@ public class BootReceiver extends BroadcastReceiver {
         the notifications aren't so urgent so although they will be triggered at the
         same time, they will show up when readily-available for the device
         */
-            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, setTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-        }
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, setTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);        }
     }
 }

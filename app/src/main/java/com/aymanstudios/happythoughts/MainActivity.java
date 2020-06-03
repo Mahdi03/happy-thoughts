@@ -82,20 +82,6 @@ public class MainActivity extends AppCompatActivity {
             "Change is the law of life. And those who look only to the past and present are certain to miss the future. - John F. Kennedy",
             "The greatest discovery of all time is that a person can change his future by merely changing his attitude. - Oprah Winfrey",
             "If you don't like something, change it. If you can't change it, change your attitude. - Maya Angelou");
-    /*
-    public class ListOfHappyThoughtsClass {
-        //Array (list) of sayings to choose from (imported into MyNotificationPublisher.java file)
-        private List<String> listOfHappyThoughts;
-        public ListOfHappyThoughtsClass(List<String> listOfHappyThoughts) {
-            this.listOfHappyThoughts = listOfHappyThoughts;
-        }
-
-        public List<String> getListOfHappyThoughts() {
-            return listOfHappyThoughts;
-        }
-    }
-
-    */
     public static final String NOTIFICATION_CHANNEL_ID = "10001";
     private final static String default_notification_channel_id = "default";
     //Set Variables for daily notification
@@ -132,25 +118,6 @@ public class MainActivity extends AppCompatActivity {
         //Replace AdMob Interstitial Ad ID with ca-app-pub-8495483038077603/2156743218
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
-        //*/
-
-
-        //ListOfHappyThoughtsClass listOfHappyThoughtsClass = new ListOfHappyThoughtsClass(Arrays.asList("string1", "string2"));
-        //db.collection("happyThoughts").document("happyThoughts").update("listOfHappyThoughts", listOfHappyThoughtsClass);
-
-        /*db.collection("happyThoughts").document("happyThoughts").set("hello")
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Toast.makeText(context, "Let's have a toast!", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
-                }
-        });*/
-
         //Define the widgets
         textView2 = findViewById(R.id.textView2);
         pickTimeButton = findViewById(R.id.pickTimeButton);
@@ -179,33 +146,16 @@ public class MainActivity extends AppCompatActivity {
                         setTime.set(Calendar.HOUR_OF_DAY, setTimeHour);
                         setTime.set(Calendar.MINUTE, setTimeMinute);
                         //scheduleNotification(getNotification("Happy Thought Of The Day:"), setTime.getTimeInMillis());
-                        //Try to disable previously called notifications
-                        /*try {
-                            Intent notificationIntent = new Intent(context, MyNotificationPublisher.class);
-                            notificationIntent.putExtra(MyNotificationPublisher.NOTIFICATION_ID, 1);
-                            //notificationIntent.putExtra(MyNotificationPublisher.NOTIFICATION, notification);
-                            //notificationIntent.put
-                            //notificationIntent.putExtra(MyNotificationPublisher.NOTIFICATION_BUILDER, );
-                            PendingIntent pendingIntent = PendingIntent.getBroadcast(context,0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                            alarmManager.cancel(pendingIntent);
-                            pendingIntent.cancel();
-                        }
-                        finally {*/
                         //Actual call to schedule notification
                         scheduleNotification(setTime.getTimeInMillis());
-                        //}
-
                         //After daily notifications are setup, call boot listener that will reset the alarm if the user shuts down the device
                         ComponentName bootReceiver = new ComponentName(context, BootReceiver.class);
                         PackageManager pm = context.getPackageManager();
                         pm.setComponentEnabledSetting(bootReceiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
-
                         //Actually display the ad
                         if (mInterstitialAd.isLoaded()) {
                             mInterstitialAd.show();
                         }
-
                         //Change informational text to text that tells user that their notifications have been set
                         textView2.setText("Your optimistic notifications have been scheduled for " + hour + ":" + minute + " every day.\n\nNow that you have setup your daily notifications, you no longer need to open this app. If you want to change the time of notifications, simply open this app again and put in your new time. Thank you for installing Happy Thoughts.");
                         //Hide time picker button
@@ -223,17 +173,6 @@ public class MainActivity extends AppCompatActivity {
 
     //Function to schedule the notifications
     private void scheduleNotification(long delay) {
-        //private void scheduleNotification(Notification notification, long delay) {
-
-        /*NotificationCompat.Builder builder = new NotificationCompat.Builder(this, default_notification_channel_id);
-        builder.setContentTitle(title);
-        builder.setContentText("...");
-        builder.setSmallIcon(R.drawable.ic_launcher_foreground);
-        //builder.setStyle(new NotificationCompat.BigTextStyle().bigText(happyThoughtsList[(int) Math.floor(Math.random() * happyThoughtsList.length)]));
-        builder.setAutoCancel(false);
-        builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-        builder.setChannelId(NOTIFICATION_CHANNEL_ID);*/
-
         /*
         Create a new intent that is the MyNotificationPublisher.class
         What this does is it queues up to call the MyNotificationPublisher.java file
@@ -242,11 +181,6 @@ public class MainActivity extends AppCompatActivity {
         Intent notificationIntent = new Intent(this, MyNotificationPublisher.class);
         //Set an ID to transfer over to the MyNotificationPublisher.java
         notificationIntent.putExtra(MyNotificationPublisher.NOTIFICATION_ID, 1);
-
-        //notificationIntent.putExtra(MyNotificationPublisher.NOTIFICATION, notification);
-        //notificationIntent.put
-        //notificationIntent.putExtra(MyNotificationPublisher.NOTIFICATION_BUILDER, );
-
         /*
         This pending intent is an intent that is waiting to happen, meaning that it will
         run when scheduled. To this pending action we attach the new intent we just created
@@ -262,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         assert alarmManager != null;
         /*
-        Change to AlarmManager.INTERVAL_DAY for testing purposes
+        Change to AlarmManager.INTERVAL_FIFTEEN_MINUTES for testing purposes
 
         This function call wakes up the device every time the alarm sets off, and it calls our
         PendingIntent which is ultimately binded to our Intent that is binded to
@@ -271,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
         the notifications aren't so urgent so although they will be triggered at the
         same time, they will show up when readily-available for the device
         */
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, delay, AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, delay, AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 
     class ListOfHappyThoughtsClass {
@@ -292,17 +226,5 @@ public class MainActivity extends AppCompatActivity {
             return listOfHappyThoughts;
         }
     }
-
-    /*private Notification getNotification(String title) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, default_notification_channel_id);
-        builder.setContentTitle(title);
-        builder.setContentText("...");
-        builder.setSmallIcon(R.drawable.ic_launcher_foreground);
-        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(happyThoughtsList[(int) Math.floor(Math.random() * happyThoughtsList.length)]));
-        builder.setAutoCancel(false);
-        builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-        builder.setChannelId(NOTIFICATION_CHANNEL_ID);
-        return builder.build();
-    }*/
 
 }
