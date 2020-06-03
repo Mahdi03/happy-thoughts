@@ -57,8 +57,6 @@ public class MyNotificationPublisher extends BroadcastReceiver {
                         else {
                             //listOfHappyThoughts = listOfHappyThoughtsFallback;
                             Toast.makeText(mainContext, task.getException().toString() + " Using a fallback list instead", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(mainContext, task.getException().toString() + "Failed to get document, using a fallback list instead", Toast.LENGTH_SHORT).show();
                         }
                         NotificationManager notificationManager = (NotificationManager) mainContext.getSystemService(Context.NOTIFICATION_SERVICE);
                         //Builds new Notification object
