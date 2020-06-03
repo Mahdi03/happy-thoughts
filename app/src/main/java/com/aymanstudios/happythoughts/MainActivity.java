@@ -54,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
     class ListOfHappyThoughtsClass {
         //List (complicated Array) of sayings to choose from
         private List<String> listOfHappyThoughts;
+        public ListOfHappyThoughtsClass() {
+            //Required for DataSnapshot.getValue(ListOfHappyThoughts.class)
+        }
         //Main Setter for class
         public ListOfHappyThoughtsClass(List<String> listOfHappyThoughts) {
             this.listOfHappyThoughts = listOfHappyThoughts;
@@ -66,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     //Actually use class to define variable if used from online
     private ListOfHappyThoughtsClass listOfHappyThoughtsClass;
     //Final List to choose sayings from (could be updated or from fallback list)
-    private List<String> listOfHappyThoughts;
+    public List<String> listOfHappyThoughts;
 
 
 
@@ -158,8 +161,7 @@ public class MainActivity extends AppCompatActivity {
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
         //*/
 
-        //Firebase stuff for testing
-        //FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         //db.collection("happyThoughts").document("happyThoughts").update("listOfHappyThoughts", listOfHappyThoughtsClass);
 
         /*db.collection("happyThoughts").document("happyThoughts").set("hello")

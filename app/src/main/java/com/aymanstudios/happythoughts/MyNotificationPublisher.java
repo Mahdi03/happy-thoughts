@@ -58,10 +58,88 @@ public class MyNotificationPublisher extends BroadcastReceiver {
     //Actually use class to define variable if used from online
     private ListOfHappyThoughtsClass listOfHappyThoughtsClass;
     //Final List to choose sayings from (could be updated or from fallback list)
-    private List<String> listOfHappyThoughts;
+    public List<String> listOfHappyThoughts;
 
 
     public void onReceive(Context context, Intent intent) {
+        listOfHappyThoughts = listOfHappyThoughtsFallback;
+        final Context mainContext = context;
+        //Firebase stuff for testing
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        //Toast.makeText(mainContext, "Good job 1", Toast.LENGTH_SHORT).show();
+        db.collection("happyThoughts").document("happyThoughts").get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                //Toast.makeText(mainContext, "Good job 2", Toast.LENGTH_SHORT).show();
+
+                                //listOfHappyThoughtsClass = new ListOfHappyThoughtsClass((List<String>) document.getData().get("listOfHappyThoughts"));
+                                //Toast.makeText(context, "Good job", Toast.LENGTH_LONG).show();
+                                //List<String> getData = (List<String>) document.getData().get("listOfHappyThoughts");
+                                //listOfHappyThoughts = listOfHappyThoughtsClass.getListOfHappyThoughts();
+
+                                listOfHappyThoughts = (List<String>) document.getData().get("listOfHappyThoughts");
+
+                                /*listOfHappyThoughts = new ArrayList<String>();
+                                listOfHappyThoughts.add(0, "1");
+                                listOfHappyThoughts.add(1, "2");*/
+
+                                //Toast.makeText(mainContext, "Good job 3", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        else {
+                            //listOfHappyThoughts = listOfHappyThoughtsFallback;
+                            Toast.makeText(mainContext, task.getException().toString() + "Failed to get document, using a fallback list instead", Toast.LENGTH_SHORT).show();
+                        }
+                        NotificationManager notificationManager = (NotificationManager) mainContext.getSystemService(Context.NOTIFICATION_SERVICE);
+                        //Builds new Notification object
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(mainContext, default_notification_channel_id);
+                        //Give it a title
+                        builder.setContentTitle("Happy Thought Of The Day:");
+                        //Set its short text that is immediately available
+                        builder.setContentText("...");
+                        builder.setSmallIcon(R.drawable.ic_launcher_foreground);
+                        //Set its long text (lines wrap and all text is visible)
+                        //Toast.makeText(context, "before set main notification text", Toast.LENGTH_SHORT).show(); //testing
+                        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(listOfHappyThoughts.get(getRandNum())));
+                        //Toast.makeText(context, "after set main notification text", Toast.LENGTH_SHORT).show(); //testing
+                        //When clicked the notification does not go away
+                        builder.setAutoCancel(false);
+                        //Allow the notification to be seen on the lock screen
+                        builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+                        //Direct the notification into a specific channel that will shortly be created
+                        builder.setChannelId(NOTIFICATION_CHANNEL_ID);
+                        //Store all of the aforementioned info into a Notification object that can be passed into the NotificationManager
+                        Notification notification = builder.build();
+
+
+                        //Notification notification = intent.getParcelableExtra(NOTIFICATION);
+                        //notification.setStyle
+
+                        //If SDK > 26
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                            //Use Notification Channel because that's how you do it
+                            int importance = NotificationManager.IMPORTANCE_HIGH;
+                            //Sets/declares a new NotificationChannel
+                            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "Daily Happy Thoughts", importance);
+                            assert notificationManager != null;
+                            //Creates a new NotificationChannel
+                            notificationManager.createNotificationChannel(notificationChannel);
+                        }
+        /*else {
+            Toast.makeText(context, "Notifications aren't supported on your device, sorry!", Toast.LENGTH_LONG);
+        }*/
+                        //int id = 0;
+                        assert notificationManager != null;
+                        //Finally push the notification
+                        notificationManager.notify(1, notification);
+                    }
+                });
+        //Toast.makeText(context, Integer.toString(listOfHappyThoughts.size()), Toast.LENGTH_LONG);
+
         /*//Get listOfHappyThoughts from firestore
         //String[] listOfHappyThoughts;
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -121,50 +199,9 @@ docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             listOfHappyThoughts = listOfHappyThoughtsFallback;
         }
         Toast.makeText(context, "BeforeSetNotification", Toast.LENGTH_SHORT).show(); //testing*/
-        listOfHappyThoughts = listOfHappyThoughtsFallback;
+        //listOfHappyThoughts = listOfHappyThoughtsFallback;
         //Overall Notification Manager - ultimately used to fire the notification directly
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        //Builds new Notification object
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, default_notification_channel_id);
-        //Give it a title
-        builder.setContentTitle("Happy Thought Of The Day:");
-        //Set its short text that is immediately available
-        builder.setContentText("...");
-        builder.setSmallIcon(R.drawable.ic_launcher_foreground);
-        //Set its long text (lines wrap and all text is visible)
-        //Toast.makeText(context, "before set main notification text", Toast.LENGTH_SHORT).show(); //testing
-        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(listOfHappyThoughts.get(getRandNum())));
-        //Toast.makeText(context, "after set main notification text", Toast.LENGTH_SHORT).show(); //testing
-        //When clicked the notification does not go away
-        builder.setAutoCancel(false);
-        //Allow the notification to be seen on the lock screen
-        builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-        //Direct the notification into a specific channel that will shortly be created
-        builder.setChannelId(NOTIFICATION_CHANNEL_ID);
-        //Store all of the aforementioned info into a Notification object that can be passed into the NotificationManager
-        Notification notification = builder.build();
 
-
-        //Notification notification = intent.getParcelableExtra(NOTIFICATION);
-        //notification.setStyle
-
-        //If SDK > 26
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            //Use Notification Channel because that's how you do it
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            //Sets/declares a new NotificationChannel
-            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "Daily Happy Thoughts", importance);
-            assert notificationManager != null;
-            //Creates a new NotificationChannel
-            notificationManager.createNotificationChannel(notificationChannel);
-        }
-        /*else {
-            Toast.makeText(context, "Notifications aren't supported on your device, sorry!", Toast.LENGTH_LONG);
-        }*/
-        //int id = 0;
-        assert notificationManager != null;
-        //Finally push the notification
-        notificationManager.notify(1, notification);
     }
     int getRandNum() {
         int randNum = (int) Math.floor(Math.random() * listOfHappyThoughts.size());
