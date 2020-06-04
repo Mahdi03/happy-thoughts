@@ -11,7 +11,6 @@ public class Splashscreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splashscreen);
         /*
         Similar to a setTimeout where this screen will be the main screen until
         5 seconds pass and the user will be taken to the next screen
