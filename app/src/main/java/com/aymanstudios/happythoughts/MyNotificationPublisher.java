@@ -101,10 +101,13 @@ public class MyNotificationPublisher extends BroadcastReceiver {
                         builder.setContentTitle("Happy Thought Of The Day:");
                         //Set its short text that is immediately available
                         builder.setContentText("...");
-                        builder.setSmallIcon(R.mipmap.app_logo);
+                        builder.setSmallIcon(R.mipmap.app_logo_foreground);
                         //Set its long text (lines wrap and all text is visible)
                         //Toast.makeText(context, "before set main notification text", Toast.LENGTH_SHORT).show(); //testing
                         builder.setStyle(new NotificationCompat.BigTextStyle().bigText(listOfHappyThoughts.get(getRandNum())));
+
+                        //builder.setStyle(new NotificationCompat.BigTextStyle().bigText("Hello\nBye\nMaybe Not"));
+
                         //Toast.makeText(context, "after set main notification text", Toast.LENGTH_SHORT).show(); //testing
                         //When clicked the notification does not go away
                         builder.setAutoCancel(false);
