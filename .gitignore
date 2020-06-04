@@ -1,5 +1,14 @@
 # built application files
 *.apk
+
+app/google-services.json
+build.gradle
+gradle.properties
+gradle/
+gradlew
+gradlew.bat
+settings.gradle
+
 .ap_
 # files for dex VM
 *.dex
