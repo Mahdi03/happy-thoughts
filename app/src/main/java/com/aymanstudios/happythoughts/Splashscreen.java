@@ -21,6 +21,7 @@ public class Splashscreen extends AppCompatActivity {
                 //Creates a new Intent to call the MainActivity.java
                 Intent mainActivityIntent = new Intent(Splashscreen.this, MainActivity.class);
                 startActivity(mainActivityIntent);
+                //This call ends the Splashscreen.java process so that when you press the back button it will not be restored
                 finish();
             }
         }, 2000);

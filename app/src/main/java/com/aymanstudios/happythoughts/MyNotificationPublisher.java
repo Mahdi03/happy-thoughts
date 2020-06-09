@@ -3,6 +3,7 @@ package com.aymanstudios.happythoughts;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -94,23 +95,31 @@ public class MyNotificationPublisher extends BroadcastReceiver {
                             //listOfHappyThoughts = listOfHappyThoughtsFallback;
                             Toast.makeText(mainContext, task.getException().toString() + " Using a fallback list instead", Toast.LENGTH_SHORT).show();
                         }
+
+                        Intent notificationPopupIntent = new Intent(mainContext, NotificationPopup.class);
+                        notificationPopupIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        notificationPopupIntent.putExtra("quoteOfTheDay", listOfHappyThoughts.get(getRandNum()));
+
+                        PendingIntent notificationPopupPendingIntent = PendingIntent.getActivity(mainContext, 0, notificationPopupIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
                         NotificationManager notificationManager = (NotificationManager) mainContext.getSystemService(Context.NOTIFICATION_SERVICE);
                         //Builds new Notification object
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(mainContext, default_notification_channel_id);
                         //Give it a title
                         builder.setContentTitle("Happy Thought Of The Day:");
                         //Set its short text that is immediately available
-                        builder.setContentText("...");
+                        builder.setContentText("Click here to see your Quote of the Day");
                         builder.setSmallIcon(R.mipmap.app_logo_foreground);
+                        builder.setContentIntent(notificationPopupPendingIntent);
                         //Set its long text (lines wrap and all text is visible)
                         //Toast.makeText(context, "before set main notification text", Toast.LENGTH_SHORT).show(); //testing
-                        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(listOfHappyThoughts.get(getRandNum())));
+                        //builder.setStyle(new NotificationCompat.BigTextStyle().bigText(listOfHappyThoughts.get(getRandNum())));
 
                         //builder.setStyle(new NotificationCompat.BigTextStyle().bigText("Hello\nBye\nMaybe Not"));
 
                         //Toast.makeText(context, "after set main notification text", Toast.LENGTH_SHORT).show(); //testing
                         //When clicked the notification does not go away
-                        builder.setAutoCancel(false);
+                        builder.setAutoCancel(false); //Set to True
                         //Allow the notification to be seen on the lock screen
                         builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
                         //Direct the notification into a specific channel that will shortly be created
