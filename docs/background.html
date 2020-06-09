@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        html, body, img {
+            margin: 0;
+            padding: 0;
+        }
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<img id="backgroundIMG" />
+<script>
+    var listOfLinks = ["dropping_stars.gif"];
+    var backgroundIMG = document.querySelector("backgroundIMG");
+    var randIMGLink = listOfLinks[Math.floor(Math.random() * listOfLinks.length)];
+    backgroundIMG.setAttribute("src", randIMGLink);
+</script>
+</body>
+</html>
