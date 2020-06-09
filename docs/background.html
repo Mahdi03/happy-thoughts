@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <style>
-        html, body, #wrapper, img {
+        html,
+        body,
+        #wrapper,
+        img {
             margin: 0;
             padding: 0;
             border: 0;
@@ -10,26 +14,37 @@
             height: 100%;
             width: 100%;
         }
+        
         #wrapper td {
             vertical-align: middle;
             text-align: center;
         }
+        
         img {
             height: auto;
         }
     </style>
 </head>
+
 <body>
-<table id="wrapper">
-    <tr><td>
-<img id="backgroundIMG" />
-    </td></tr>
-</table>
-<script>
-    var listOfLinks = ["dropping_stars.gif"];
-    var backgroundIMG = document.querySelector("#backgroundIMG");
-    var randIMGLink = listOfLinks[Math.floor(Math.random() * listOfLinks.length)];
-    backgroundIMG.setAttribute("src", randIMGLink);
-</script>
+    <table id="wrapper">
+        <tr>
+            <td>
+                <img id="backgroundIMG" />
+            </td>
+        </tr>
+    </table>
+    <script>
+        var listOfLinks = ["dropping_stars.gif",
+            "https://images.pexels.com/photos/1525043/pexels-photo-1525043.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+            "https://images.pexels.com/photos/1450082/pexels-photo-1450082.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+            "https://www.goodfreephotos.com/cache/other-landscapes/scenery-with-lake-reflections-with-clouds-in-the-sky.jpg",
+            "campfire.jpg", "colorfulCow.jpg", "donkeyLake1.jpg", "donkeyLake2.jpg", "donkeyLake3.jpg", "donkeyLake4.jpg", "road1.jpeg"
+        ];
+        var backgroundIMG = document.querySelector("#backgroundIMG");
+        var randIMGLink = listOfLinks[Math.floor(Math.random() * listOfLinks.length)];
+        backgroundIMG.setAttribute("src", randIMGLink);
+    </script>
 </body>
+
 </html>
