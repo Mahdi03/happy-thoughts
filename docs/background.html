@@ -2,19 +2,29 @@
 <html>
 <head>
     <style>
-        html, body, img {
+        html, body, #wrapper, img {
             margin: 0;
             padding: 0;
+            border: 0;
             overflow: hidden;
             height: 100%;
+            width: 100%;
+        }
+        #wrapper td {
+            vertical-align: middle;
+            text-align: center;
         }
         img {
-            width: 100%;
+            height: auto;
         }
     </style>
 </head>
 <body>
+<table id="wrapper">
+    <tr><td>
 <img id="backgroundIMG" />
+    </td></tr>
+</table>
 <script>
     var listOfLinks = ["dropping_stars.gif"];
     var backgroundIMG = document.querySelector("#backgroundIMG");
