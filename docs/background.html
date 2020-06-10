@@ -85,7 +85,7 @@
         function handleOrientation(event) {
             var x = event.gamma;
             x += 90;
-            backgroundIMG.style.marginLeft = (maxX * x / 180) - (backgroundIMG.width / 2) + "px";
+            backgroundIMG.style.marginLeft = (maxX * x / 180) - (backgroundIMG.width / 1.5) + "px";
         }
         window.addEventListener("deviceorientation", handleOrientation);
         /*The object Android is already predefined in the Java where the WebView is used*/
