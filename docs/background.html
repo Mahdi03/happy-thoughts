@@ -88,8 +88,8 @@
         function handleOrientation(event) {
             var x = event.gamma;
             x += 90;
-            if (x > 10 && x < 170) {
-            backgroundIMG.style.marginLeft = (maxX * x / 180) - (backgroundIMG.width / 2.5) + "px";
+            if (x > 20 && x < 160) {
+            backgroundIMG.style.marginLeft = (maxX * x / 190) - (backgroundIMG.width / 2.5) + "px";
             }
         }
         window.addEventListener("deviceorientation", handleOrientation);
