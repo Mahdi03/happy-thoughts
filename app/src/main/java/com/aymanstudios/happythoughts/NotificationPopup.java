@@ -1,7 +1,10 @@
 package com.aymanstudios.happythoughts;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.widget.TextView;
 
@@ -47,14 +50,15 @@ public class NotificationPopup extends AppCompatActivity {
         bannerAdView.loadAd(adRequest);
 
         //Set the Background
+        backgroundWebView = findViewById(R.id.backgroundWebView);
         backgroundWebView.getSettings().setJavaScriptEnabled(true);
         backgroundWebView.loadUrl("https://mahdi03.github.io/happy-thoughts/background.html");
 
         //Set the rest of the screen's views
         entireScreen = findViewById(R.id.entireScreen);
         quoteOfTheDayTextView = findViewById(R.id.quoteOfTheDayTextView);
-        String quoteOfTheDay = getIntent().getStringExtra("quoteOfTheDay").replaceAll("\\n", "\n");
-        quoteOfTheDayTextView.setText(quoteOfTheDay);
+        //String quoteOfTheDay = getIntent().getStringExtra("quoteOfTheDay").replaceAll("\\n", "\n");
+        //quoteOfTheDayTextView.setText(quoteOfTheDay);
         //When the constraint layout is clicked, close the activity
         entireScreen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +66,27 @@ public class NotificationPopup extends AppCompatActivity {
                 finish();
             }
         });
+        backgroundWebView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        backgroundWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
 
+    }
+    public boolean onTouchEvent(MotionEvent event) {
+        this.finish();
+        return true;
+    }
+    public class WebAppInterface {
+        Context context;
+        WebAppInterface(Context c) {
+            context = c;
+        }
+        @JavascriptInterface
+        public void closeActivity() {
+            NotificationPopup.this.finish();
+        }
     }
 }

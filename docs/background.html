@@ -75,6 +75,10 @@
         var backgroundIMG = document.querySelector("#backgroundIMG");
         var randIMGLink = listOfLinks[Math.floor(Math.random() * listOfLinks.length)];
         backgroundIMG.setAttribute("src", randIMGLink);
+        /*The object Android is already predefined in the Java where the WebView is used*/
+        document.body.addEventListener("click", () => {
+            Android.closeActivity();
+        });
     </script>
 </body>
 
