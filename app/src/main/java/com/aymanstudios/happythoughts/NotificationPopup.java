@@ -1,6 +1,9 @@
 package com.aymanstudios.happythoughts;
 
 import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,11 +28,10 @@ public class NotificationPopup extends AppCompatActivity {
     TextView quoteOfTheDayTextView;
     AdView bannerAdView;
     WebView backgroundWebView;
-    public List<String> listOfBackgroundImages = Arrays.asList("docs/dropping_stars.gif");
-    int getRandNum() {
-        int randNum = (int) Math.floor(Math.random() * listOfBackgroundImages.size());
-        return randNum;
-    }
+    /*
+    private SensorManager sensorManager;
+    private Sensor rotationVectorSensor;
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,10 +44,12 @@ public class NotificationPopup extends AppCompatActivity {
             }
         });
         bannerAdView = findViewById(R.id.bannerAdView);
-        bannerAdView.setAdSize(AdSize.BANNER);
+
+        bannerAdView.setAdSize(AdSize.SMART_BANNER);
         // <!--Real Ad: ca-app-pub-8495483038077603/1037713608-->
         //    <!--Test Ad: ca-app-pub-3940256099942544/6300978111-->
-        bannerAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+        bannerAdView.setAdUnitId("ca-app-pub-8495483038077603/1037713608");
+
         AdRequest adRequest = new AdRequest.Builder().build();
         bannerAdView.loadAd(adRequest);
 
@@ -53,12 +57,17 @@ public class NotificationPopup extends AppCompatActivity {
         backgroundWebView = findViewById(R.id.backgroundWebView);
         backgroundWebView.getSettings().setJavaScriptEnabled(true);
         backgroundWebView.loadUrl("https://mahdi03.github.io/happy-thoughts/background.html");
-
+        /*
+        //Sensor Manager
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        rotationVectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+        sensorManager.registerListener(onSensorChanged, rotationVectorSensor, 10000);
+        */
         //Set the rest of the screen's views
         entireScreen = findViewById(R.id.entireScreen);
         quoteOfTheDayTextView = findViewById(R.id.quoteOfTheDayTextView);
-        //String quoteOfTheDay = getIntent().getStringExtra("quoteOfTheDay").replaceAll("\\n", "\n");
-        //quoteOfTheDayTextView.setText(quoteOfTheDay);
+        String quoteOfTheDay = getIntent().getStringExtra("quoteOfTheDay").replaceAll("\\n", "\n");
+        quoteOfTheDayTextView.setText(quoteOfTheDay);
         //When the constraint layout is clicked, close the activity
         entireScreen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +88,12 @@ public class NotificationPopup extends AppCompatActivity {
         this.finish();
         return true;
     }
+    /*private void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR){
+            SensorManager.getRotationMatrixFromVector();
+        }
+
+    }*/
     public class WebAppInterface {
         Context context;
         WebAppInterface(Context c) {

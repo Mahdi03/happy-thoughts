@@ -119,7 +119,7 @@ public class MyNotificationPublisher extends BroadcastReceiver {
 
                         //Toast.makeText(context, "after set main notification text", Toast.LENGTH_SHORT).show(); //testing
                         //When clicked the notification does not go away
-                        builder.setAutoCancel(false); //Set to True
+                        builder.setAutoCancel(true); //Set to True
                         //Allow the notification to be seen on the lock screen
                         builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
                         //Direct the notification into a specific channel that will shortly be created

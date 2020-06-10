@@ -32,13 +32,12 @@
         style="@style/shadowText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="50dp"
         android:layout_marginBottom="8dp"
-        android:text="Hello World!"
         android:textAlignment="center"
-        android:textColor="@color/colorAccent"
+        android:textSize="26sp"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +59,8 @@
         app:layout_constraintVertical_bias="1.0" />
     <!--Real Ad: ca-app-pub-8495483038077603/1037713608-->
     <!--Test Ad: ca-app-pub-3940256099942544/6300978111-->
-    <com.google.android.gms.ads.AdView xmlns:ads="http:/schemas.android.com/apk/res-auto"
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http:/schemas.android.com/apk/res-auto"
         android:id="@+id/bannerAdView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -68,6 +68,8 @@
         android:layout_marginEnd="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="ca-app-pub-8495483038077603/1037713608" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
