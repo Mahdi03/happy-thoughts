@@ -17,6 +17,7 @@ settings.gradle
 # generated files
 bin/
 gen/
+release/
 # icon creation files
 newIcon/
 # windows thumbnail db
@@ -44,3 +45,4 @@ obj/
 .externalNativeBuild
 
 src/google-services.json
+docs/backgroundIMGTest.html
