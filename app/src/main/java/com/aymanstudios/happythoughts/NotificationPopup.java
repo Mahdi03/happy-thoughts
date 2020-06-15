@@ -1,15 +1,13 @@
 package com.aymanstudios.happythoughts;
 
 import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,9 +17,6 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class NotificationPopup extends AppCompatActivity {
     View entireScreen;
@@ -37,6 +32,7 @@ public class NotificationPopup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_popup);
         //Get Mobile Banner Ad
+
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -68,6 +64,14 @@ public class NotificationPopup extends AppCompatActivity {
         quoteOfTheDayTextView = findViewById(R.id.quoteOfTheDayTextView);
         String quoteOfTheDay = getIntent().getStringExtra("quoteOfTheDay").replaceAll("\\n", "\n");
         quoteOfTheDayTextView.setText(quoteOfTheDay);
+        /*
+        Toast toast1 = Toast.makeText(this, "(Click anywhere to exit this screen)", Toast.LENGTH_LONG);
+        toast1.setGravity(Gravity.TOP, 0, 200);
+        toast1.show();
+        */
+        Toast toast2 = Toast.makeText(this, "Tilt your device to move the image", Toast.LENGTH_LONG);
+        //toast2.setGravity(Gravity.TOP, 0, 200);
+        toast2.show();
         //When the constraint layout is clicked, close the activity
         entireScreen.setOnClickListener(new View.OnClickListener() {
             @Override
