@@ -12,7 +12,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -40,12 +39,12 @@ public class NotificationPopup extends AppCompatActivity {
             }
         });
         bannerAdView = findViewById(R.id.bannerAdView);
-
+        /*
         bannerAdView.setAdSize(AdSize.SMART_BANNER);
         // <!--Real Ad: ca-app-pub-8495483038077603/1037713608-->
         //    <!--Test Ad: ca-app-pub-3940256099942544/6300978111-->
         bannerAdView.setAdUnitId("ca-app-pub-8495483038077603/1037713608");
-
+        */
         AdRequest adRequest = new AdRequest.Builder().build();
         bannerAdView.loadAd(adRequest);
 
