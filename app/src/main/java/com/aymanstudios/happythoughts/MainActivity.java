@@ -142,10 +142,18 @@ public class MainActivity extends AppCompatActivity {
                         setTimeHour = hour;
                         setTimeMinute = minute;
                         //Create a calendar object to convert the time into milliseconds
-                        Calendar setTime = Calendar.getInstance();
-                        setTime.setTimeInMillis(System.currentTimeMillis());
+                        Calendar getTime = Calendar.getInstance();
+                        Calendar setTime = (Calendar) getTime.clone();
+                        //setTime.setTimeInMillis(System.currentTimeMillis());
                         setTime.set(Calendar.HOUR_OF_DAY, setTimeHour);
                         setTime.set(Calendar.MINUTE, setTimeMinute);
+                        setTime.set(Calendar.SECOND, 0);
+                        setTime.set(Calendar.MILLISECOND, 0);
+
+                        if (setTime.compareTo(getTime) <= 0) {
+                            setTime.add(Calendar.DATE, 1);
+                        }
+
                         //scheduleNotification(getNotification("Happy Thought Of The Day:"), setTime.getTimeInMillis());
                         //Actual call to schedule notification
                         scheduleNotification(setTime.getTimeInMillis());
