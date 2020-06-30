@@ -5,21 +5,45 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 
 import java.util.Calendar;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.aymanstudios.happythoughts.MainActivity.setTimeHour;
 import static com.aymanstudios.happythoughts.MainActivity.setTimeMinute;
 
 public class BootReceiver extends BroadcastReceiver {
+    int setTimeHourSharedPreferences;
+    int setTimeMinuteSharedPreferences;
+    //Use Android built-in Shared Preferences feature to save variables even after reboot
+    private SharedPreferences mPreferences;
+    private String sharedPreferencesFile = "com.aymanstudios.happythoughts";
+
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
+
+            //Actually Define Shared Preferences File
+            mPreferences = context.getSharedPreferences(sharedPreferencesFile, MODE_PRIVATE);
+
+            //Usage: mPreferences.getInt("key name", default);
+            setTimeHourSharedPreferences = mPreferences.getInt("setTimeHourSharedPreferences", setTimeHour);
+            setTimeMinuteSharedPreferences = mPreferences.getInt("setTimeMinuteSharedPreferences", setTimeMinute);
+            //Toast.makeText(context, "You have rebooted your phone, your Happy Thought of the day has been rescheduled at "  + String.valueOf(setTimeHourSharedPreferences) + ":" + String.valueOf(setTimeMinuteSharedPreferences), Toast.LENGTH_SHORT).show();
             //Set daily notifications again
-            Calendar setTime = Calendar.getInstance();
-            setTime.setTimeInMillis(System.currentTimeMillis());
-            setTime.set(Calendar.HOUR_OF_DAY, setTimeHour);
-            setTime.set(Calendar.MINUTE, setTimeMinute);
+            //Create a calendar object to convert the time into milliseconds
+            Calendar getTime = Calendar.getInstance();
+            Calendar setTime = (Calendar) getTime.clone();
+            //setTime.setTimeInMillis(System.currentTimeMillis());
+            setTime.set(Calendar.HOUR_OF_DAY, setTimeHourSharedPreferences);
+            setTime.set(Calendar.MINUTE, setTimeMinuteSharedPreferences);
+            setTime.set(Calendar.SECOND, 0);
+            setTime.set(Calendar.MILLISECOND, 0);
+
+            if (setTime.compareTo(getTime) <= 0) {
+                setTime.add(Calendar.DATE, 1);
+            }
 
             /*
         Create a new intent that is the MyNotificationPublisher.class

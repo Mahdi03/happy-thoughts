@@ -8,6 +8,7 @@ import android.app.TimePickerDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -87,6 +88,11 @@ public class MainActivity extends AppCompatActivity {
     //Set Variables for daily notification
     public static int setTimeHour;
     public static int setTimeMinute;
+
+    //Use Android built-in Shared Preferences feature to save variables even after reboot
+    private SharedPreferences mPreferences;
+    private String sharedPreferencesFile = "com.aymanstudios.happythoughts";
+
     //Final List to choose sayings from (could be updated or from fallback list)
     public List<String> listOfHappyThoughts;
     //This represents the paragraph text
@@ -128,6 +134,9 @@ public class MainActivity extends AppCompatActivity {
         final int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
         final int currentMinute = calendar.get(Calendar.MINUTE);
 
+        //Actually Define Shared Preferences File
+        mPreferences = getSharedPreferences(sharedPreferencesFile, MODE_PRIVATE);
+
         //Equal to JS button.addEventListener("click", callback)
         pickTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,10 +166,21 @@ public class MainActivity extends AppCompatActivity {
                         //scheduleNotification(getNotification("Happy Thought Of The Day:"), setTime.getTimeInMillis());
                         //Actual call to schedule notification
                         scheduleNotification(setTime.getTimeInMillis());
+                        //Now Save The Chosen Time to Shared Preferences file for reboots
+                        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+                        //Reset Previously Existing Times
+                        preferencesEditor.clear();
+                        preferencesEditor.commit();
+                        ///Set new times
+                        preferencesEditor.putInt("setTimeHourSharedPreferences", setTimeHour);
+                        preferencesEditor.putInt("setTimeMinuteSharedPreferences", setTimeMinute);
+                        preferencesEditor.apply();
+
                         //After daily notifications are setup, call boot listener that will reset the alarm if the user shuts down the device
                         ComponentName bootReceiver = new ComponentName(context, BootReceiver.class);
                         PackageManager pm = context.getPackageManager();
                         pm.setComponentEnabledSetting(bootReceiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+
                         //Actually display the ad
                         if (mInterstitialAd.isLoaded()) {
                             mInterstitialAd.show();
