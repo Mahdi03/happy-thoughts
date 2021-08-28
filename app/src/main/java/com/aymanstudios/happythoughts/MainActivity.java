@@ -11,18 +11,22 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -120,11 +124,31 @@ public class MainActivity extends AppCompatActivity {
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
+        AdRequest adRequest = new AdRequest.Builder().build();
+        //Testing AdMob Interstitial Ad ID: ca-app-pub-3940256099942544/1033173712
+        //Replace AdMob Interstitial Ad ID with ca-app-pub-8495483038077603/2156743218
+        InterstitialAd.load(this, "ca-app-pub-3940256099942544/1033173712", adRequest, new InterstitialAdLoadCallback() {
+            @Override
+            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                mInterstitialAd = interstitialAd;
+                //The advertisement is now defined
+            }
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                // Handle the error
+                mInterstitialAd = null;
+                Log.e("Interstitial Ad Status", "Ad failed to load :((");
+            }
+        });
+
+        /* Deprecated
         mInterstitialAd = new InterstitialAd(this);
         //Testing AdMob Interstitial Ad ID: ca-app-pub-3940256099942544/1033173712
         //Replace AdMob Interstitial Ad ID with ca-app-pub-8495483038077603/2156743218
         mInterstitialAd.setAdUnitId("ca-app-pub-8495483038077603/2156743218");
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        */
+
         //Define the widgets
         textView2 = findViewById(R.id.textView2);
         pickTimeButton = findViewById(R.id.pickTimeButton);
@@ -182,8 +206,12 @@ public class MainActivity extends AppCompatActivity {
                         pm.setComponentEnabledSetting(bootReceiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
 
                         //Actually display the ad
-                        if (mInterstitialAd.isLoaded()) {
-                            mInterstitialAd.show();
+                        if (mInterstitialAd != null) {
+                            mInterstitialAd.show(MainActivity.this);
+                        }
+                        else {
+                            //Ad isn't defined yet
+                            Log.e("Interstitial Ad Status", "Ad isn't defined yet");
                         }
                         //Change informational text to text that tells user that their notifications have been set
                         textView2.setText("Your optimistic notifications have been scheduled for " + hour + ":" + minute + " every day.\n\nNow that you have setup your daily notifications, you no longer need to open this app. If you want to change the time of notifications, simply open this app again and put in your new time. Thank you for installing Happy Thoughts.");
