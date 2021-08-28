@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().build();
         //Testing AdMob Interstitial Ad ID: ca-app-pub-3940256099942544/1033173712
         //Replace AdMob Interstitial Ad ID with ca-app-pub-8495483038077603/2156743218
-        InterstitialAd.load(this, "ca-app-pub-3940256099942544/1033173712", adRequest, new InterstitialAdLoadCallback() {
+        InterstitialAd.load(this, "ca-app-pub-8495483038077603/2156743218", adRequest, new InterstitialAdLoadCallback() {
             @Override
             public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                 mInterstitialAd = interstitialAd;
